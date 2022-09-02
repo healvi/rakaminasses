@@ -1,9 +1,9 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import alertReducer from "../redux/alertRedux";
 import modalReducer from "../redux/modalRedux";
-
 import { persistReducer, persistStore } from "redux-persist";
 import storage from "redux-persist/lib/storage";
+import todoReducer from "../redux/todoRedux";
 const persistConfig = {
   key: "root",
   storage,
@@ -11,7 +11,8 @@ const persistConfig = {
 };
 const rootReducer = combineReducers({
   alerts: alertReducer,
-  modals: modalReducer
+  modals: modalReducer,
+  todos : todoReducer
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

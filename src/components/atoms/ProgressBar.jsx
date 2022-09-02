@@ -1,6 +1,7 @@
 import React from "react";
+import { useEffect } from "react";
 
-const ProgressBar = ({ widths = 0, type = "process" }) => {
+const ProgressBar = ({ widths, type = "process" }) => {
   if (type === "process") {
     return (
       <div className="w-full basis-3/4 h-4 bg-neutral30 rounded-full  ">

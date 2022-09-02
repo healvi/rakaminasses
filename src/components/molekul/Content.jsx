@@ -1,24 +1,58 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect } from "react";
+import { useState } from "react";
 import IconProsess from "../atoms/IconProsess";
 import ProgressBar from "../atoms/ProgressBar";
 import Dropdown from "./Dropdown";
+import NotContent from "./NotContent";
 
-const Content = ({ progress, name = "default" }) => {
+const Content = ({ progress, name = "default", id }) => {
+  const [listdetail, setlistdetail] = useState([]);
+  useEffect(() => {
+    try {
+      axios
+        .get(`https://todos-project-api.herokuapp.com/todos/${id}/items`)
+        .then((response) => {
+          setlistdetail(response.data);
+        });
+    } catch (error) {}
+  }, []);
+  useEffect(() => {}, [listdetail]);
   return (
-    <div className="flex justify-start flex-col px-[16px] pt-[16px] pb-[20px] bg-neutral20 border border-neutral40 box-todo ">
-      <p className="font-bold text-sm leading-6 text-neutral90 mb-[20px]">
-        {name}
-      </p>
+    <>
+      {listdetail.length ? (
+        listdetail.map((v) => (
+          <div className="flex justify-start flex-col px-[16px] pt-[16px] pb-[20px] bg-neutral20 border border-neutral40 box-todo ">
+            <p className="font-bold text-sm leading-6 text-neutral90 mb-[20px]">
+              {v.name}
+            </p>
 
-      <div className="border-dashed border-t-2 border-neutral40 flex flex-row items-center justify-center">
-        <ProgressBar widths={25} type={"process"} />
-        <div className="basis-1/4 flex flex-row justify-between items-center ml-2">
-          <IconProsess width={25} type={"process"} />
+            <div className="border-dashed border-t-2 border-neutral40 flex flex-row items-center justify-center">
+              <ProgressBar
+                widths={v.progress_percentage}
+                type={
+                  Number(v.progress_percentage) === 100 ? "success" : "process"
+                }
+              />
+              <div className="basis-1/4 flex flex-row justify-between items-center ml-2">
+                <IconProsess
+                  width={v.progress_percentage}
+                  type={
+                    Number(v.progress_percentage) === 100
+                      ? "success"
+                      : "process"
+                  }
+                />
 
-          <Dropdown />
-        </div>
-      </div>
-    </div>
+                <Dropdown />
+              </div>
+            </div>
+          </div>
+        ))
+      ) : (
+        <NotContent />
+      )}
+    </>
   );
 };
 
