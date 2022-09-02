@@ -8,8 +8,10 @@ import {
   setmodalDelete,
   setmodalEdit,
 } from "../../redux/modalRedux";
+import { moveToTask } from "../../redux/todoRedux";
 
 const Dropdown = ({ id, data }) => {
+  const todo = useSelector((state) => state.todos.todo);
   const dispatch = useDispatch();
   const edit = useSelector((state) => state.modals.edit);
   const deletes = useSelector((state) => state.modals.delete);
@@ -38,6 +40,7 @@ const Dropdown = ({ id, data }) => {
           <Menu.Items className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
             <Menu.Item className="flex flex-row p-[12px]">
               <button
+                onClick={() => dispatch(moveToTask(id, todo, "kanan"))}
                 href="#"
                 className=" w-full bg-gray-100 text-gray-900 text-gray-700 block px-4 py-2 text-sm"
               >
@@ -51,6 +54,7 @@ const Dropdown = ({ id, data }) => {
             </Menu.Item>
             <Menu.Item className="flex flex-row p-[12px]">
               <button
+                onClick={() => dispatch(moveToTask(id, todo, "kiri", data.id))}
                 href="#"
                 className=" w-full bg-gray-100 text-gray-900 text-gray-700 block px-4 py-2 text-sm"
               >

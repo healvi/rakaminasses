@@ -53,9 +53,30 @@ const deleteItem = (id, form) => async (dispatch) => {
   await axios.delete(`https://todos-project-api.herokuapp.com/todos/${id}/items/${form.id}`).then((v) => {
     dispatch(getTodo())
   })
-  
 };
 
-export {getTodo , createItem, updateItem, deleteItem, getItem}
+const moveToTask = (id, todos, directives, idItem) => async (dispatch) => {
+  const index = todos.findIndex((v) => v.id === id)
+  let res = {}
+  if (directives === 'kiri') {
+    if (index >= 0) {
+      res = {
+        "target_todo_id": todos[index - 1].id,
+    }
+    }
+} else {
+  if (index < todos.length) {
+    res = {
+      "target_todo_id": todos[index + 1].id,
+    }
+  }
+  }
+
+  await axios.patch(`https://todos-project-api.herokuapp.com/todos/${id}/items/${idItem}`, res).then((v) => {
+    dispatch(getTodo())
+  })
+};
+
+export {getTodo , createItem, updateItem, deleteItem, getItem, moveToTask}
 export const {settodoGlobal, setitemGlobal } = todoReducer.actions;
 export default todoReducer.reducer;

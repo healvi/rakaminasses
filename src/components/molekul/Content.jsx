@@ -1,12 +1,14 @@
 import axios from "axios";
 import React, { useEffect } from "react";
 import { useState } from "react";
+import { useSelector } from "react-redux";
 import IconProsess from "../atoms/IconProsess";
 import ProgressBar from "../atoms/ProgressBar";
 import Dropdown from "./Dropdown";
 import NotContent from "./NotContent";
 
 const Content = ({ progress, name = "default", id }) => {
+  const todo = useSelector((state) => state.todos.todo);
   const [listdetail, setlistdetail] = useState([]);
   useEffect(() => {
     try {
@@ -16,12 +18,14 @@ const Content = ({ progress, name = "default", id }) => {
           setlistdetail(response.data);
         });
     } catch (error) {}
-  }, []);
-  useEffect(() => {}, [listdetail]);
+  }, [todo]);
+  useEffect(() => {
+    console.log(listdetail);
+  }, [listdetail]);
   return (
     <>
       {listdetail.length ? (
-        listdetail.map((v) => (
+        listdetail.map((v, i) => (
           <div className="flex mb-[12px] justify-start flex-col px-[16px] pt-[16px] pb-[20px] bg-neutral20 border border-neutral40 box-todo ">
             <p className="font-bold  text-sm leading-6 text-neutral90 mb-[20px]">
               {v.name}

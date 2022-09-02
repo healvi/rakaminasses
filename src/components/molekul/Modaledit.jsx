@@ -120,6 +120,7 @@ const Modaledit = ({ open, setOpen }) => {
                       form.isUpdate
                         ? dispacth(updateItem(dataId, form))
                         : dispacth(createItem(dataId, form));
+                      setOpen(false);
                     }}
                   >
                     Save Task

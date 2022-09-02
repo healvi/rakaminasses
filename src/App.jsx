@@ -24,9 +24,11 @@ function App() {
     dispatch(setmodalEdit(!edit));
   };
   useEffect(() => {
+    console.log(todo);
+  }, [todo]);
+  useEffect(() => {
     dispatch(getTodo());
   }, []);
-  useEffect(() => {}, [todo]);
   return (
     <div className="App">
       <Navbar />
