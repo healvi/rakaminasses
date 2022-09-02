@@ -1,17 +1,22 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "./App.scss";
-import { Content, Modaldelete, Navbar, NotContent } from "./components";
+import { Content, Modaldelete, Navbar } from "./components";
 import Modaledit from "./components/molekul/Modaledit";
-import { setmodalDelete, setmodalEdit } from "./redux/modalRedux";
+import {
+  setForm,
+  setId,
+  setmodalDelete,
+  setmodalEdit,
+} from "./redux/modalRedux";
 import { getTodo } from "./redux/todoRedux";
 
 function App() {
   const dispatch = useDispatch();
-  const items = useSelector((state) => state.todos.item);
   const todo = useSelector((state) => state.todos.todo);
   const edit = useSelector((state) => state.modals.edit);
   const deletes = useSelector((state) => state.modals.delete);
+
   const openModalDelete = () => {
     dispatch(setmodalDelete(!deletes));
   };
@@ -36,16 +41,27 @@ function App() {
               {/* button */}
               <button
                 type="button"
-                class="text-primaryBorder hover:text-white border border-primaryBorder  focus:ring-4 focus:outline-none focus:ring-primaryBorder leading-5 rounded font-normal px-[8px] py-[2px] text-center mb-[8px] w-24 text-xs"
+                class="text-primaryBorder hover:text-white border border-primaryBorder tast-name  focus:ring-4 focus:outline-none focus:ring-primaryBorder leading-5 rounded font-normal px-[8px] py-[2px] text-center mb-[8px] w-24 text-xs"
               >
                 {data.title}
               </button>
               {/* description*/}
               <p className="font-bold text-xs mb-[8px]">{data.description}</p>
               {/* Items */}
-              <Content id={data.id} />
+              <Content key={i} id={data.id} />
               <div
-                onClick={() => openModalEdit(!edit)}
+                onClick={() => {
+                  openModalEdit(!edit);
+                  dispatch(setId(data.id));
+                  dispatch(
+                    setForm({
+                      id: "",
+                      name: "",
+                      progress_percentage: 0,
+                      isUpdate: false,
+                    })
+                  );
+                }}
                 className="cursor-pointer flex flex-row justify-start mt-[10px] items-center font-normal"
               >
                 <img

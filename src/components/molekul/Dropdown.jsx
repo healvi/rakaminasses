@@ -2,9 +2,14 @@
 import { Fragment } from "react";
 import { Menu, Transition } from "@headlessui/react";
 import { useDispatch, useSelector } from "react-redux";
-import { setmodalDelete, setmodalEdit } from "../../redux/modalRedux";
+import {
+  setForm,
+  setId,
+  setmodalDelete,
+  setmodalEdit,
+} from "../../redux/modalRedux";
 
-const Dropdown = () => {
+const Dropdown = ({ id, data }) => {
   const dispatch = useDispatch();
   const edit = useSelector((state) => state.modals.edit);
   const deletes = useSelector((state) => state.modals.delete);
@@ -59,7 +64,16 @@ const Dropdown = () => {
             </Menu.Item>
             <Menu.Item className="flex flex-row p-[12px]">
               <button
-                onClick={() => dispatch(setmodalEdit(!edit))}
+                onClick={() => {
+                  dispatch(setId(id));
+                  dispatch(setmodalEdit(!edit));
+                  dispatch(
+                    setForm({
+                      ...data,
+                      isUpdate: true,
+                    })
+                  );
+                }}
                 className=" w-full bg-gray-100 text-gray-900 text-gray-700 block px-4 py-2 text-sm"
               >
                 <img
@@ -67,13 +81,21 @@ const Dropdown = () => {
                   className="h-5 mx-[10px]"
                   alt="mainlogo"
                 />
-                <p>Move Edit</p>
+                <p>Edit</p>
               </button>
             </Menu.Item>
             <Menu.Item className="flex flex-row p-[12px]">
               <button
                 type="button"
-                onClick={() => dispatch(setmodalDelete(!deletes))}
+                onClick={() => {
+                  dispatch(setId(id));
+                  dispatch(
+                    setForm({
+                      ...data,
+                    })
+                  );
+                  dispatch(setmodalDelete(!deletes));
+                }}
                 className=" w-full bg-gray-100 text-gray-900 text-gray-700 block px-4 py-2 text-sm"
                 data-modal-toggle="delete-modal"
               >

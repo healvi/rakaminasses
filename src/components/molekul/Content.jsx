@@ -22,8 +22,8 @@ const Content = ({ progress, name = "default", id }) => {
     <>
       {listdetail.length ? (
         listdetail.map((v) => (
-          <div className="flex justify-start flex-col px-[16px] pt-[16px] pb-[20px] bg-neutral20 border border-neutral40 box-todo ">
-            <p className="font-bold text-sm leading-6 text-neutral90 mb-[20px]">
+          <div className="flex mb-[12px] justify-start flex-col px-[16px] pt-[16px] pb-[20px] bg-neutral20 border border-neutral40 box-todo ">
+            <p className="font-bold  text-sm leading-6 text-neutral90 mb-[20px]">
               {v.name}
             </p>
 
@@ -44,7 +44,7 @@ const Content = ({ progress, name = "default", id }) => {
                   }
                 />
 
-                <Dropdown />
+                <Dropdown id={id} data={v} />
               </div>
             </div>
           </div>

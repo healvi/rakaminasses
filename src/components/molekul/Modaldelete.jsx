@@ -1,11 +1,15 @@
 /* This example requires Tailwind CSS v2.0+ */
-import { Fragment, useRef, useState } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
-
+import { useDispatch, useSelector } from "react-redux";
+import { deleteItem } from "../../redux/todoRedux";
 const Modaldelete = ({ open, setOpen }) => {
   const cancelButtonRef = useRef(null);
-
+  const dispatch = useDispatch();
+  const dataId = useSelector((state) => state.modals.id);
+  const form = useSelector((state) => state.modals.form);
+  useEffect(() => {}, [dataId]);
   return (
     <Transition.Root show={open} as={Fragment}>
       <Dialog
@@ -66,7 +70,10 @@ const Modaldelete = ({ open, setOpen }) => {
                   <button
                     type="button"
                     className="inline-flex w-full justify-center rounded-md border border-transparent bg-red-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 sm:ml-3 sm:w-auto sm:text-sm"
-                    onClick={() => setOpen(false)}
+                    onClick={() => {
+                      setOpen(false);
+                      dispatch(deleteItem(dataId, form));
+                    }}
                   >
                     Delete
                   </button>

@@ -8,7 +8,8 @@ import { store, persistor } from './app/store';
 import { PersistGate } from 'redux-persist/integration/react';
 import axios from 'axios';
 const root = ReactDOM.createRoot(document.getElementById('root'));
-axios.defaults.headers.common['Authorization'] = `Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE2NjI0MjI5ODJ9.WXpsUgF3FSHGetMSYfqvftIaOOez1Y0yTWoq4S0FFCc`
+const token = process.env.REACT_APP_TODO
+axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
 root.render(
   <Provider store={store}>
   <PersistGate loading={null} persistor={persistor}>

@@ -1,10 +1,20 @@
 /* This example requires Tailwind CSS v2.0+ */
 import { Fragment, useRef, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { setForm } from "../../redux/modalRedux";
+import { createItem, updateItem } from "../../redux/todoRedux";
 
 const Modaledit = ({ open, setOpen }) => {
+  const dispacth = useDispatch();
   const cancelButtonRef = useRef(null);
+  const dataId = useSelector((state) => state.modals.id);
+  const form = useSelector((state) => state.modals.form);
+  useEffect(() => {
+    console.log(dataId);
+    console.log(form);
+  }, [dataId, form]);
 
   return (
     <Transition.Root show={open} as={Fragment}>
@@ -45,33 +55,53 @@ const Modaledit = ({ open, setOpen }) => {
                         as="h3"
                         className="text-lg font-medium leading-6 text-gray-900"
                       >
-                        Create Task
+                        {form.isUpdate ? "Update Task" : "Create Task"}
                       </Dialog.Title>
                       <div className="mt-2">
                         <form>
                           <div class="mb-6">
                             <label
-                              for="name"
+                              htmlFor="name"
                               class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
                             >
                               Task name
                             </label>
                             <input
+                              onChange={(e) =>
+                                dispacth(
+                                  setForm({
+                                    ...form,
+                                    name: e.target.value,
+                                  })
+                                )
+                              }
                               type="name"
                               id="name"
+                              value={form.name}
                               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                               required
                             />
                           </div>
                           <div class="mb-6">
                             <label
-                              for="progress"
+                              htmlFor="progress"
                               class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
                             >
                               Task progress
                             </label>
                             <input
-                              type="text"
+                              onChange={(e) =>
+                                dispacth(
+                                  setForm({
+                                    ...form,
+                                    progress_percentage: e.target.value,
+                                  })
+                                )
+                              }
+                              type="number"
+                              min="0"
+                              max="100"
+                              value={form["progress_percentage"]}
                               id="progress"
                               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                               required
@@ -86,7 +116,11 @@ const Modaledit = ({ open, setOpen }) => {
                   <button
                     type="button"
                     className="inline-flex w-full justify-center rounded-md border border-transparent bg-primary px-4 py-2 text-base font-medium text-white shadow-sm  focus:outline-none focus:ring-2  focus:ring-offset-2 sm:ml-3 sm:w-auto sm:text-sm"
-                    onClick={() => setOpen(false)}
+                    onClick={() => {
+                      form.isUpdate
+                        ? dispacth(updateItem(dataId, form))
+                        : dispacth(createItem(dataId, form));
+                    }}
                   >
                     Save Task
                   </button>
