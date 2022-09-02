@@ -1,23 +1,68 @@
-import logo from './logo.svg';
-import './App.scss';
+import { useDispatch, useSelector } from "react-redux";
+import "./App.scss";
+import { Content, Modaldelete, Navbar, NotContent } from "./components";
+import Modaledit from "./components/molekul/Modaledit";
+import { setmodalDelete, setmodalEdit } from "./redux/modalRedux";
 
 function App() {
+  const dispatch = useDispatch();
+  const edit = useSelector((state) => state.modals.edit);
+  const deletes = useSelector((state) => state.modals.delete);
+  const openModalDelete = () => {
+    dispatch(setmodalDelete(!deletes));
+  };
+  const openModalEdit = () => {
+    dispatch(setmodalEdit(!edit));
+  };
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Navbar />
+
+      <div className="main-content grid md:grid-cols-4 gap-4 p-[24px] sm:grid-cols-1">
+        <div className="flex flex-col justify-start p-[16px] bg-primarySurface border border-primaryBorder">
+          {/* button */}
+          <button
+            type="button"
+            class="text-primaryBorder hover:text-white border border-primaryBorder  focus:ring-4 focus:outline-none focus:ring-primaryBorder leading-5 rounded font-normal px-[8px] py-[2px] text-center mb-[8px] w-24 text-xs"
+          >
+            Group Task 1
+          </button>
+          {/* description*/}
+          <p className="font-bold text-xs mb-[8px]">January - Maret</p>
+          {/* Items */}
+          <Content />
+          <div
+            onClick={() => openModalEdit(!edit)}
+            className="cursor-pointer flex flex-row justify-start mt-[10px] items-center font-normal"
+          >
+            <img
+              src={require("./assets/icons/plus.svg").default}
+              className="h-5 m-[5px] "
+              alt="mainlogo"
+            />
+            <p className="text-xs">New Task</p>
+          </div>
+        </div>
+
+        {/* <div className="flex flex-col p-[16px] bg-secondarySurface border border-secondaryBorder">
+          <button
+            type="button"
+            class="text-primaryBorder hover:text-white border border-primaryBorder  focus:ring-4 focus:outline-none focus:ring-primaryBorder leading-5 rounded font-normal px-[8px] py-[2px] text-center mb-[8px] w-24 text-xs"
+          >
+            Group Task 1
+          </button>
+          <p className="font-bold text-xs mb-[8px]">January - Maret</p>
+          <NotContent />
+        </div>
+        <div className="flex flex-col p-[16px] bg-dangerSurface border border-dangerBorder">
+          makan
+        </div>
+        <div className="flex flex-col p-[16px] bg-successSurface border border-successBorder">
+          makan
+        </div> */}
+      </div>
+      <Modaldelete open={deletes} setOpen={openModalDelete} />
+      <Modaledit open={edit} setOpen={openModalEdit} />
     </div>
   );
 }

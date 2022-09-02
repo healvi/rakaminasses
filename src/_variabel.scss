@@ -1,0 +1,15 @@
+$primarymain :#01959F;
+$secondary :#FA9810;
+$danger : #E11428;
+$success :#43936C ;
+$neutral :  #FFFFFF;
+
+@mixin border-radius-full {
+    border-radius: 9999px;
+}
+@mixin border-radius-normal {
+    border-radius: 8px;
+}
+@mixin border-radius-small {
+    border-radius: 4px;
+}
